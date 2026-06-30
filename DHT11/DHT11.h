@@ -4,6 +4,16 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+typedef enum
+{
+    DHT11_OK = 0,
+    DHT11_INVALID_PARAM,
+    DHT11_TIMEOUT,
+    DHT11_RESPONSE_TIMEOUT,
+    DHT11_DATA_TIMEOUT,
+    DHT11_CHECKSUM_ERROR
+} DHT11_Status;
+
 /*
  * Portable DHT11 driver configuration structure.
  * - `port` is framework-specific (e.g. GPIOA pointer) and kept as void* for portability.
@@ -36,7 +46,7 @@ typedef struct {
 /* Initialize driver state if needed (may be a no-op) */
 void DHT11_Init(DHT11_Config_t *cfg);
 
-/* Read temperature and humidity. Returns 0 on success, non-zero on error. */
-int DHT11_Read(DHT11_Config_t *cfg, uint8_t *temperature, uint8_t *humidity);
+/* Read temperature and humidity. Returns DHT11_OK on success, other values on error. */
+DHT11_Status DHT11_Read(DHT11_Config_t *cfg, uint8_t *temperature, uint8_t *humidity);
 
 #endif /* _DHT11_H_ */
